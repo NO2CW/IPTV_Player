@@ -30,13 +30,13 @@ class SetupViewModel(private val repo: ChannelRepository) : ViewModel() {
     fun clearError() { _error.value = null }
 
     fun importM3uUrl(name: String, url: String) =
-        startImport { repo.importM3uUrl(name, url, progress) }
+        startImport { repo.importM3uUrl(name, url, ::updateProgress) }
 
     fun importM3uText(name: String, text: String) =
-        startImport { repo.importM3uText(name, text, progress) }
+        startImport { repo.importM3uText(name, text, ::updateProgress) }
 
     fun importXtream(name: String, server: String, username: String, password: String) =
-        startImport { repo.importXtream(name, server, username, password, progress) }
+        startImport { repo.importXtream(name, server, username, password, ::updateProgress) }
 
     private fun startImport(block: suspend () -> Unit) {
         if (_busy.value) return
@@ -56,5 +56,7 @@ class SetupViewModel(private val repo: ChannelRepository) : ViewModel() {
         }
     }
 
-    private fun progress(): (String, Int) -> Unit = { msg, _ -> _progress.value = msg }
+    private fun updateProgress(msg: String, ignoredPercent: Int) {
+        _progress.value = msg
+    }
 }

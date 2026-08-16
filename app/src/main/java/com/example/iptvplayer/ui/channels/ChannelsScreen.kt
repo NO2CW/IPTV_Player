@@ -154,7 +154,9 @@ private fun TopBar(
                 Text("＋ Add list", color = MaterialTheme.colorScheme.primary)
             }
             if (sources.isNotEmpty()) {
-                TextButton(onClick = { sources.firstOrNull { it.isActive }?.let(onDeleteSource) }) {
+                TextButton(onClick = {
+                    sources.firstOrNull { it.isActive }?.id?.let(onDeleteSource)
+                }) {
                     Text("Delete list", color = MaterialTheme.colorScheme.error)
                 }
             }
